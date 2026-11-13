@@ -1,5 +1,7 @@
 # Customer Churn Predictor (ANN + Streamlit)
 
+**Live app:** https://bank-churn-ann.streamlit.app/
+
 An Artificial Neural Network (Keras) that predicts whether a bank customer will **leave the bank**, and a small Streamlit web app that uses it.
 
 **Dataset:** `Churn_Modelling.csv` (10,000 customers, target `Exited`: 1 = left, 0 = stayed).
@@ -36,7 +38,10 @@ The two files were created with Python 3.13, TensorFlow 2.21, Keras 3.15 and sci
 ## Retrain
 Open `train.ipynb` in Jupyter or Google Colab and run it from top to bottom (in Colab, upload `Churn_Modelling.csv` when asked). The last Step 9 cell can start the app from Colab.
 
-## Deploy free on Streamlit Community Cloud (bonus)
+## Deployment (bonus)
+The app is deployed free on Streamlit Community Cloud: https://bank-churn-ann.streamlit.app/
+
+To deploy your own copy:
 1. Go to https://share.streamlit.io and sign in with GitHub.
 2. Create a new app, pick this repository, branch `main`, main file `app.py`.
 3. Deploy. Streamlit installs `requirements.txt` for you.
