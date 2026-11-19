@@ -22,7 +22,8 @@ The model misses a bit more than half of the customers who leave. In the bonus p
 | `app.py` | Streamlit app |
 | `model.keras` | trained ANN (13 inputs, 16 and 8 ReLU neurons, 1 Sigmoid output) |
 | `preprocessor.pkl` | fitted One-Hot Encoder + StandardScaler (needed by the app) |
-| `requirements.txt` | libraries |
+| `requirements.txt` | libraries (pinned versions) |
+| `requirements-dev.txt`, `tests/` | pytest and smoke tests |
 | `loss_plot.png`, `confusion_matrix.png` | plots from the notebook |
 | `screenshots/` | the app showing one STAY and one LEAVE prediction |
 
@@ -34,6 +35,14 @@ streamlit run app.py
 (If `streamlit` is not found, use `python -m streamlit run app.py`.)
 
 The two files were created with Python 3.13, TensorFlow 2.21, Keras 3.15 and scikit-learn 1.9.1. If loading fails on an older setup, re-run `train.ipynb` to make fresh `model.keras` and `preprocessor.pkl` files.
+
+## Running tests
+Smoke tests check that `preprocessor.pkl` and `model.keras` load and give a churn probability between 0 and 1 for one customer:
+```
+pip install -r requirements-dev.txt
+python -m pytest
+```
+The pinned versions in `requirements.txt` were tested together on Python 3.13 (TensorFlow 2.21 has no Python 3.14 build).
 
 ## Retrain
 Open `train.ipynb` in Jupyter or Google Colab and run it from top to bottom (in Colab, upload `Churn_Modelling.csv` when asked). The last Step 9 cell can start the app from Colab.

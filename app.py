@@ -23,7 +23,24 @@ def load_files():
     return model, preprocessor
 
 
-model, preprocessor = load_files()
+def check_files():
+    """Stop the app with a clear message if a needed file is missing or cannot be loaded."""
+    for name in ("model.keras", "preprocessor.pkl"):
+        if not (HERE / name).is_file():
+            st.error(f"`{name}` was not found next to app.py. Put the trained file in "
+                     f"`{HERE}` (or re-run `train.ipynb` to create it), then reload the page.")
+            st.stop()
+    try:
+        return load_files()
+    except Exception as err:  # corrupt file, wrong library versions, ...
+        st.error("Could not load `model.keras` / `preprocessor.pkl`. The files may be damaged "
+                 "or were saved with different library versions (see requirements.txt). "
+                 "Re-run `train.ipynb` to create fresh files.\n\n"
+                 f"Details: `{type(err).__name__}: {err}`")
+        st.stop()
+
+
+model, preprocessor = check_files()
 
 st.title("🏦 Bank Customer Churn Predictor")
 st.write("Fill in the customer's details, then click **Predict** to see how likely "
