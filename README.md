@@ -22,7 +22,10 @@ The model misses a bit more than half of the customers who leave. In the bonus p
 | `app.py` | Streamlit app |
 | `model.keras` | trained ANN (13 inputs, 16 and 8 ReLU neurons, 1 Sigmoid output) |
 | `preprocessor.pkl` | fitted One-Hot Encoder + StandardScaler (needed by the app) |
+| `predict_cli.py` | command-line predictor for one customer |
+| `tests/` | pytest tests for `predict_cli.py` |
 | `requirements.txt` | libraries |
+| `requirements-dev.txt` | libraries + pytest, for running the tests |
 | `loss_plot.png`, `confusion_matrix.png` | plots from the notebook |
 | `screenshots/` | the app showing one STAY and one LEAVE prediction |
 
@@ -34,6 +37,21 @@ streamlit run app.py
 (If `streamlit` is not found, use `python -m streamlit run app.py`.)
 
 The two files were created with Python 3.13, TensorFlow 2.21, Keras 3.15 and scikit-learn 1.9.1. If loading fails on an older setup, re-run `train.ipynb` to make fresh `model.keras` and `preprocessor.pkl` files.
+
+## Command-line prediction
+`predict_cli.py` predicts for one customer without the web app. It uses the same `model.keras`, `preprocessor.pkl` and 0.50 threshold as `app.py`.
+```
+python predict_cli.py --credit-score 650 --geography France --gender Male --age 38 \
+    --tenure 5 --balance 76000 --num-of-products 1 --has-cr-card 1 \
+    --is-active-member 1 --estimated-salary 100000
+```
+```
+Churn probability: 9.3% (0.0930)
+Verdict: likely to STAY (threshold 0.50)
+```
+Run `python predict_cli.py --help` to see every option, including `--threshold`. Bad input stops the script with a one-line error and a non-zero exit code: a missing or non-numeric value, a value outside the app's ranges, an unknown Geography or Gender, or a missing model or preprocessor file. TensorFlow may print a few startup log lines to stderr; the result goes to stdout.
+
+Tests: `pip install -r requirements-dev.txt`, then `python -m pytest`.
 
 ## Retrain
 Open `train.ipynb` in Jupyter or Google Colab and run it from top to bottom (in Colab, upload `Churn_Modelling.csv` when asked). The last Step 9 cell can start the app from Colab.
