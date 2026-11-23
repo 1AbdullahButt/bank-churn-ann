@@ -35,6 +35,18 @@ streamlit run app.py
 
 The two files were created with Python 3.13, TensorFlow 2.21, Keras 3.15 and scikit-learn 1.9.1. If loading fails on an older setup, re-run `train.ipynb` to make fresh `model.keras` and `preprocessor.pkl` files.
 
+## Usage
+After cloning, from the repository folder:
+```
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+streamlit run app.py
+```
+The app opens in your browser (usually http://localhost:8501). It asks for one customer's details: geography, gender, age, credit score, tenure, balance, number of products, whether they have a credit card, whether they are an active member, and estimated salary. Click **Predict** to see the churn probability and a verdict: likely to LEAVE or likely to STAY.
+
+The **Decision threshold** slider (0.30 to 0.70, default 0.50) sets the cut-off: the customer is called likely to leave when the probability is at or above it. A lower threshold catches more leavers but gives more false alarms. If you change any details after predicting, click **Predict** again.
+
 ## Retrain
 Open `train.ipynb` in Jupyter or Google Colab and run it from top to bottom (in Colab, upload `Churn_Modelling.csv` when asked). The last Step 9 cell can start the app from Colab.
 
